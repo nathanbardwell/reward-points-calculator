@@ -9,7 +9,6 @@ import java.time.LocalDate;
 public class TransactionRecord {
 
 	private String customerId;
-	private String transactionId;
 	private LocalDate purchaseDate;
 	private BigDecimal purchaseAmount;
 
