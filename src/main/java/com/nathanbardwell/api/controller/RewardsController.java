@@ -4,6 +4,7 @@ import com.nathanbardwell.api.dto.RewardPointsResponse;
 import com.nathanbardwell.api.dto.TransactionRecordsRequest;
 import com.nathanbardwell.api.service.RewardsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,7 +27,9 @@ public class RewardsController {
 
 	@GetMapping("/calculate-points")
 	public ResponseEntity<RewardPointsResponse> calculatePoints(@RequestBody TransactionRecordsRequest request,
+	                                                            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
 	                                                            @RequestParam LocalDate dateRangeStart,
+	                                                            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
 	                                                            @RequestParam LocalDate dateRangeEnd) {
 		RewardPointsResponse response = rewardsService.calculateRewardsPoints(request, dateRangeStart, dateRangeEnd);
 
