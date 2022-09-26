@@ -6,6 +6,7 @@ import com.nathanbardwell.api.service.RewardsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,7 +22,7 @@ public class RewardsController {
 	}
 
 	@GetMapping("/calculate-points")
-	public ResponseEntity<RewardPointsResponse> calculatePoints(TransactionRecordsRequest request) {
+	public ResponseEntity<RewardPointsResponse> calculatePoints(@RequestBody TransactionRecordsRequest request) {
 		RewardPointsResponse response = rewardsService.calculateRewardsPoints(request);
 
 		return ResponseEntity.ok(response);
