@@ -26,7 +26,7 @@ public class RewardsService {
 		return new RewardPointsResponse(customerRewardPoints);
 	}
 
-	private Map<String, List<TransactionRecord>> organizeTransactionsByCustomerId(List<TransactionRecord> transactions) {
+	protected Map<String, List<TransactionRecord>> organizeTransactionsByCustomerId(List<TransactionRecord> transactions) {
 		HashMap<String, List<TransactionRecord>> customerTransactions = new HashMap<>();
 
 		for (TransactionRecord transaction : transactions) {
@@ -44,14 +44,14 @@ public class RewardsService {
 		return customerTransactions;
 	}
 
-	private CustomerRewardPoints calculateCustomerRewardPoints(String customerId, List<TransactionRecord> transactions) {
+	protected CustomerRewardPoints calculateCustomerRewardPoints(String customerId, List<TransactionRecord> transactions) {
 		Map<String, Integer> monthlyRewardPoints = calculateMonthlyRewardPoints(transactions);
 		int totalPoints = monthlyRewardPoints.values().stream().mapToInt(i -> i).sum();
 
 		return new CustomerRewardPoints(customerId, totalPoints, monthlyRewardPoints);
 	}
 
-	private Map<String, Integer> calculateMonthlyRewardPoints(List<TransactionRecord> transactions) {
+	protected Map<String, Integer> calculateMonthlyRewardPoints(List<TransactionRecord> transactions) {
 		Map<String, Integer> monthlyRewardPoints = new HashMap<>();
 
 		for (TransactionRecord transaction : transactions) {
@@ -69,7 +69,7 @@ public class RewardsService {
 		return monthlyRewardPoints;
 	}
 
-	private int calculatePointsForPurchaseAmount(BigDecimal purchaseAmount){
+	protected int calculatePointsForPurchaseAmount(BigDecimal purchaseAmount) {
 		int purchaseDollarAmount = purchaseAmount.intValue();
 		int totalPoints = 0;
 
