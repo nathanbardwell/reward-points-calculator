@@ -125,27 +125,27 @@ None
   "customerRewardPoints": [
     {
       "customerId": "customer1",
-      "totalRewardPoints": 65,
+      "totalRewardPoints": 115,
       "monthlyRewardPoints": {
-        "Oct 2022": 40,
+        "Oct 2022": 90,
         "Sep 2022": 25,
         "Aug 2022": 0
       }
     },
     {
       "customerId": "customer2",
-      "totalRewardPoints": 65,
+      "totalRewardPoints": 115,
       "monthlyRewardPoints": {
-        "Oct 2022": 40,
+        "Oct 2022": 90,
         "Sep 2022": 25,
         "Aug 2022": 0
       }
     },
     {
       "customerId": "customer3",
-      "totalRewardPoints": 65,
+      "totalRewardPoints": 115,
       "monthlyRewardPoints": {
-        "Oct 2022": 40,
+        "Oct 2022": 90,
         "Sep 2022": 25,
         "Aug 2022": 0
       }
