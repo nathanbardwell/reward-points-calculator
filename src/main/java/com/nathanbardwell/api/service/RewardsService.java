@@ -7,6 +7,7 @@ import com.nathanbardwell.api.dto.TransactionRecordsRequest;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,14 +17,23 @@ import java.util.Map;
 @Service
 public class RewardsService {
 
-	public RewardPointsResponse calculateRewardsPoints(TransactionRecordsRequest request) {
-		Map<String, List<TransactionRecord>> customerTransactions = organizeTransactionsByCustomerId(request.getTransactions());
+	public RewardPointsResponse calculateRewardsPoints(TransactionRecordsRequest request, LocalDate dateRangeStart, LocalDate dateRangeEnd) {
+		List<TransactionRecord> transactions = filterTransactionsByDateRange(request.getTransactions(), dateRangeStart, dateRangeEnd);
+
+		Map<String, List<TransactionRecord>> customerTransactions = organizeTransactionsByCustomerId(transactions);
 
 		List<CustomerRewardPoints> customerRewardPoints = customerTransactions.entrySet().stream()
 				.map(entry -> calculateCustomerRewardPoints(entry.getKey(), entry.getValue()))
 				.toList();
 
 		return new RewardPointsResponse(customerRewardPoints);
+	}
+
+	protected List<TransactionRecord> filterTransactionsByDateRange(List<TransactionRecord> transactions, LocalDate start, LocalDate end) {
+		return transactions.stream()
+				.filter(txn -> !txn.getPurchaseDate().isBefore(start))
+				.filter(txn -> !txn.getPurchaseDate().isAfter(end))
+				.toList();
 	}
 
 	protected Map<String, List<TransactionRecord>> organizeTransactionsByCustomerId(List<TransactionRecord> transactions) {

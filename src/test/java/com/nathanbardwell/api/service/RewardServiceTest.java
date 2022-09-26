@@ -8,7 +8,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.mockito.Mockito;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -42,11 +41,44 @@ class RewardServiceTest {
 		TransactionRecordsRequest request = new TransactionRecordsRequest();
 		request.setTransactions(transactions);
 
-		RewardPointsResponse actual = rewardsService.calculateRewardsPoints(request);
+		LocalDate dateRangeStart = LocalDate.of(2022, 10, 1);
+		LocalDate dateRangeEnd = LocalDate.of(2022, 11, 30);
+		RewardPointsResponse actual = rewardsService.calculateRewardsPoints(request, dateRangeStart, dateRangeEnd);
 
 		assertThat(actual.getCustomerRewardPoints()).hasSize(2)
 				.contains(new CustomerRewardPoints("12345", 5, Map.of("Oct 2022", 5)))
 				.contains(new CustomerRewardPoints("54321", 25, Map.of("Nov 2022", 25)));
+	}
+
+	@Test
+	void testFilterTransactionsByDateRange() {
+		TransactionRecord transaction1 = new TransactionRecord();
+		transaction1.setCustomerId("12345");
+		transaction1.setPurchaseAmount(BigDecimal.valueOf(55.00));
+		transaction1.setPurchaseDate(LocalDate.of(2022, 11, 1));
+
+		TransactionRecord transaction2 = new TransactionRecord();
+		transaction2.setCustomerId("12345");
+		transaction2.setPurchaseAmount(BigDecimal.valueOf(55.00));
+		transaction2.setPurchaseDate(LocalDate.of(2022, 10, 1));
+
+		TransactionRecord transaction3 = new TransactionRecord();
+		transaction3.setCustomerId("12345");
+		transaction3.setPurchaseAmount(BigDecimal.valueOf(55.00));
+		transaction3.setPurchaseDate(LocalDate.of(2022, 9, 1));
+
+		TransactionRecord transaction4 = new TransactionRecord();
+		transaction4.setCustomerId("12345");
+		transaction4.setPurchaseAmount(BigDecimal.valueOf(55.00));
+		transaction4.setPurchaseDate(LocalDate.of(2022, 8, 1));
+
+		List<TransactionRecord> transactions = List.of(transaction1, transaction2, transaction3, transaction4);
+
+		LocalDate dateRangeStart = LocalDate.of(2022, 9, 1);
+		LocalDate dateRangeEnd = LocalDate.of(2022, 10, 30);
+		List<TransactionRecord> actual = rewardsService.filterTransactionsByDateRange(transactions, dateRangeStart, dateRangeEnd);
+
+		assertThat(actual).hasSize(2).contains(transaction2, transaction3);
 	}
 
 	@Test
