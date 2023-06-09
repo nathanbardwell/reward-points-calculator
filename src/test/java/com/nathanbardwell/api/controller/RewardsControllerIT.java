@@ -3,9 +3,7 @@ package com.nathanbardwell.api.controller;
 
 import com.nathanbardwell.api.RewardPointsCalculatorApplication;
 import com.nathanbardwell.api.dto.CalculateRewardPointsRequest;
-import com.nathanbardwell.api.dto.CalculateRewardPointsResponse;
 import com.nathanbardwell.api.dto.TransactionRecord;
-import org.json.JSONException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -29,7 +27,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class RewardsControllerIT {
 
     @LocalServerPort
-    private int port;
+    int port;
 
     TestRestTemplate restTemplate = new TestRestTemplate();
 
